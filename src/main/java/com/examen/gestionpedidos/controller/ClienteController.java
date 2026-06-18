@@ -31,4 +31,16 @@ public class ClienteController {
 
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
+    @GetMapping("/{id}")
+    public ResponseEntity<BaseResponse<Cliente>> obtenerPorId(@PathVariable Long id) {
+        Cliente cliente = clienteService.buscarPorId(id);
+
+        BaseResponse<Cliente> response = BaseResponse.<Cliente>builder()
+                .codigo(HttpStatus.OK.value())
+                .mensaje("Cliente encontrado correctamente")
+                .objeto(cliente)
+                .build();
+
+        return ResponseEntity.ok(response);
+    }
 }
