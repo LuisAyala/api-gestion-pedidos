@@ -65,7 +65,7 @@ public class GlobalExceptionHandler {
                 .build();
         return new ResponseEntity<>(response, HttpStatus.CONFLICT);
     }
-    
+
 
     // Captura cualquier otro error genérico inesperado (500 Internal Server Error)
     @ExceptionHandler(Exception.class)
