@@ -12,7 +12,7 @@
 	<artifactId>gestionpedidos</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name/>
-	<description/>
+	<description>API REST de Gestión de Pedidos</description>
 	<url/>
 	<licenses>
 		<license/>
