@@ -55,6 +55,18 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
     }
 
+    // Captura cuando se viola una restricción de clave única (como DNI o correo duplicado)
+    @ExceptionHandler(org.springframework.dao.DataIntegrityViolationException.class)
+    public ResponseEntity<BaseResponse<Object>> handleDataIntegrityViolation(org.springframework.dao.DataIntegrityViolationException ex) {
+        BaseResponse<Object> response = BaseResponse.builder()
+                .codigo(HttpStatus.CONFLICT.value()) // 409 Conflict es el código HTTP ideal para duplicados
+                .mensaje("Error de integridad: El DNI o correo electrónico ingresado ya se encuentra registrado.")
+                .objeto(null)
+                .build();
+        return new ResponseEntity<>(response, HttpStatus.CONFLICT);
+    }
+    
+
     // Captura cualquier otro error genérico inesperado (500 Internal Server Error)
     @ExceptionHandler(Exception.class)
     public ResponseEntity<BaseResponse<Object>> handleGlobalException(Exception ex) {
