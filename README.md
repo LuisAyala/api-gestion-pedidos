@@ -37,10 +37,78 @@ Objetivo: 	Gestionar el registro de clientes, productos y el procesamiento de pe
 ### 1. Preparación de la Base de Datos
 Asegúrese de tener instalado PostgreSQL y cree de forma manual la base de datos ejecutando el siguiente comando en su gestor SQL (pgAdmin, DBeaver o terminal):
 ```sql
-CREATE DATABASE db_pedidos;
-
+		CREATE DATABASE db_pedidos;
+```
 Las tablas y restricciones de integridad relacional se autogenerarán de forma automática al iniciar la aplicación gracias a la propiedad:
 			  spring.jpa.hibernate.ddl-auto=update <-- configurada.
+
 ### 2. Compilación y Ejecución (Uso de Maven Wrapper)
 
 Abra una terminal en la raíz del proyecto y ejecute los siguientes comandos según el flujo requerido:
+
+	# Otorgar permisos de ejecución al Wrapper en entornos Linux/Mac (si aplica)
+		chmod +x mvnw
+
+	# Limpiar, compilar el proyecto y ejecutar la suite de pruebas unitarias
+		./mvnw clean install
+
+	# Levantar el servidor embebido de Spring Boot
+		./mvnw spring-boot:run
+
+ La API se iniciará exitosamente en el puerto predeterminado: http://localhost:8080
+
+🧪 Ejecución de Pruebas Unitarias
+
+Para ejecutar exclusivamente los escenarios de prueba automatizados con JUnit 5 y Mockito (que validan el camino feliz de la creación de pedidos, fallos por stock insuficiente y productos inexistentes), corra:
+	./mvnw test
+
+📍 Catálogo de Endpoints Disponibles (Ejemplos JSON)
+👤 Clientes
+
+    POST /api/clientes - Registrar un cliente.
+    	JSON
+    	{
+ 		 	"nombre": "Luis Antonio",
+  			"apellido": "Ayala Olivares",
+  			"dni": "08588006",
+  			"correo": "layala@tecnimotors.com"
+		}
+
+	GET /api/clientes/{id} - Buscar cliente por su ID.
+
+
+
+
+📦 Productos
+
+    POST /api/productos - Crear o registrar un producto.
+
+    {
+  		"nombre": "D208 20X2.10AZU",
+ 		"descripcion": "LLANTA C/C SIDEWALL",
+  		"precio": 50.00,
+ 		"stock": 200
+	}
+
+	GET /api/productos - Listar todos los productos del catálogo.
+
+
+🛒 Pedidos
+
+    POST /api/pedidos - Crear un pedido para un cliente desglosando varios productos.
+
+    {
+ 		 "clienteId": 2,
+ 		 "items": [
+    		{
+      		"productoId": 2,
+      		"cantidad": 150
+    		}
+  		]
+	}
+
+	GET /api/pedidos/{id} - Consultar un pedido por ID.
+
+	GET /api/pedidos/cliente/{clienteId} - Listar los pedidos asociados a un cliente específico.
+
+	
